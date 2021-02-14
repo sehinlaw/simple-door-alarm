@@ -10,21 +10,19 @@ input.onButtonPressed(Button.AB, function () {
 input.onButtonPressed(Button.B, function () {
     control.reset()
 })
+// When the light sensors are triggered by any light it will play this mystery melody and show a sad face.
+basic.forever(function () {
+    if (input.lightLevel() > 1) {
+        basic.showIcon(IconNames.Confused)
+    }
+})
 // I utilized the forever block so the microbit would always detect the magnetic force and alarm when someone opens the door, in oppose to on start. I chose for the alarm to go off when the magnetic force is less than 150 being that I was working with a weaker magnet.
 basic.forever(function () {
     if (input.magneticForce(Dimension.Strength) < 150) {
         basic.showIcon(IconNames.Angry)
         music.playTone(988, music.beat(BeatFraction.Whole))
         music.playTone(880, music.beat(BeatFraction.Whole))
-    } else {
-        // When the door is not opened the screen will show a heart icon.
+    } else if (input.magneticForce(Dimension.X) > 150) {
         basic.showIcon(IconNames.Heart)
-    }
-})
-// When the light sensors are triggered by any light it will play this mystery melody and show a sad face.
-basic.forever(function () {
-    if (input.lightLevel() < 1) {
-        basic.showIcon(IconNames.Confused)
-        music.playMelody("E B C5 A B G G F ", 120)
     }
 })
